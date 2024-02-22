@@ -6,7 +6,7 @@ custom_java_repositories: poja-custom-java-repositories.txt
 frontal_memory: 512
 jacoco_min_coverage: '0.8'
 java_facade_it: FacadeIT
-package_full_name: hei.school.sary
+package_full_name: hei.school.sarisary
 region: eu-west-3
 ses_source: noreply@nowhere.com
 ssm_sg_id: /poja/sg/id
