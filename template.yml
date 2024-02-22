@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: poja-sary-std22048 - Computation and API
+Description: poja-sarisary-std22048 - Computation and API
 
 Globals:
   Function:
@@ -20,9 +20,9 @@ Globals:
     Environment:
       Variables:
         ENV: !Ref Env
-        AWS_SQS_QUEUE_URL: !Sub '{{resolve:ssm:/poja-sary-std22048/${Env}/sqs/mailbox-queue-url}}'
-        AWS_EVENTBRIDGE_BUS: !Sub '{{resolve:ssm:/poja-sary-std22048/${Env}/eventbridge/bus-name}}'
-        AWS_S3_BUCKET: !Sub '{{resolve:ssm:/poja-sary-std22048/${Env}/s3/bucket-name}}'
+        AWS_SQS_QUEUE_URL: !Sub '{{resolve:ssm:/poja-sarisary-std22048/${Env}/sqs/mailbox-queue-url}}'
+        AWS_EVENTBRIDGE_BUS: !Sub '{{resolve:ssm:/poja-sarisary-std22048/${Env}/eventbridge/bus-name}}'
+        AWS_S3_BUCKET: !Sub '{{resolve:ssm:/poja-sarisary-std22048/${Env}/s3/bucket-name}}'
         AWS_SES_SOURCE: noreply@nowhere.com
         DRIVERCLASSNAME: org.sqlite.JDBC
         SPRING_JPA_DATABASEPLATFORM: org.hibernate.community.dialect.SQLiteDialect
@@ -49,10 +49,10 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: hei.school.sary.ApiEventHandler::handleRequest
-      MemorySize: 2048
-      Role: !Sub '{{resolve:ssm:/poja-sary-std22048/${Env}/execution/role-arn}}'
+      MemorySize: 512
+      Role: !Sub '{{resolve:ssm:/poja-sarisary-std22048/${Env}/execution/role-arn}}'
       FileSystemConfigs:
-        - Arn: !Sub '{{resolve:ssm:/poja-sary-std22048/${Env}/efs/access-point/arn}}'
+        - Arn: !Sub '{{resolve:ssm:/poja-sarisary-std22048/${Env}/efs/access-point/arn}}'
           LocalMountPath: /mnt/efs
       Events:
         ApiCall:
@@ -67,16 +67,16 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: hei.school.sary.MailboxEventHandler::handleRequest
-      MemorySize: 1024
-      Role: !Sub '{{resolve:ssm:/poja-sary-std22048/${Env}/execution/role-arn}}'
+      MemorySize: 512
+      Role: !Sub '{{resolve:ssm:/poja-sarisary-std22048/${Env}/execution/role-arn}}'
       FileSystemConfigs:
-        - Arn: !Sub '{{resolve:ssm:/poja-sary-std22048/${Env}/efs/access-point/arn}}'
+        - Arn: !Sub '{{resolve:ssm:/poja-sarisary-std22048/${Env}/efs/access-point/arn}}'
           LocalMountPath: /mnt/efs
       Events:
         AllEvents:
           Type: SQS
           Properties:
-            Queue: !Sub '{{resolve:ssm:/poja-sary-std22048/${Env}/sqs/mailbox-queue-arn}}'
+            Queue: !Sub '{{resolve:ssm:/poja-sarisary-std22048/${Env}/sqs/mailbox-queue-arn}}'
             BatchSize: 5
 
   ApplicationResourceGroup:
@@ -95,7 +95,7 @@ Resources:
   ApiUrlSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Join [ '', [ /poja-sary-std22048/, !Ref Env, /api/url ] ]
+      Name: !Join [ '', [ /poja-sarisary-std22048/, !Ref Env, /api/url ] ]
       Type: String
       Value: !Sub "https://${FrontalServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
 

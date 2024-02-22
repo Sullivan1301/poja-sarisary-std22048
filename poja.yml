@@ -1,4 +1,4 @@
-app_name: poja-sary-std22048
+app_name: poja-sarisary-std22048
 cli_version: 11.2.0
 custom_java_deps: poja-custom-java-deps.txt
 custom_java_env_vars: poja-custom-java-env-vars.txt

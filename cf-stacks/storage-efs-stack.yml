@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: poja-sary-std22048 - Storage EFS
+Description: poja-sarisary-std22048 - Storage EFS
 
 Parameters:
   Env:
     Type: String
   FilesystemName:
     Type: String
-    Default: poja-sary-std22048-efs
+    Default: poja-sarisary-std22048-efs
 
 Resources:
   Filesystem:
@@ -33,7 +33,7 @@ Resources:
   AccessPointArnSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Join [ '', [ /poja-sary-std22048/, !Ref Env, /efs/access-point/arn ] ]
+      Name: !Join [ '', [ /poja-sarisary-std22048/, !Ref Env, /efs/access-point/arn ] ]
       Type: String
       Value: !GetAtt AccessPoint.Arn
 
