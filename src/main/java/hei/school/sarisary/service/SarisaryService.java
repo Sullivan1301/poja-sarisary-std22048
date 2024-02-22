@@ -1,10 +1,9 @@
-package hei.school.sarisary.service;
-
 import hei.school.sarisary.file.BucketComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
@@ -12,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 
 @Service
 public class SarisaryService {
@@ -49,16 +47,16 @@ public class SarisaryService {
     }
 
     private byte[] transformToBlackAndWhite(byte[] imageBytes) throws IOException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
-        BufferedImage image = ImageIO.read(inputStream);
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+             ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            BufferedImage image = ImageIO.read(inputStream);
 
-        BufferedImage blackAndWhiteImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
-        blackAndWhiteImage.getGraphics().drawImage(image, 0, 0, null);
+            BufferedImage blackAndWhiteImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+            blackAndWhiteImage.getGraphics().drawImage(image,  0,  0, null);
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ImageIO.write(blackAndWhiteImage, "png", outputStream);
+            ImageIO.write(blackAndWhiteImage, "png", outputStream);
 
-        return outputStream.toByteArray();
+            return outputStream.toByteArray();
+        }
     }
 }
-
