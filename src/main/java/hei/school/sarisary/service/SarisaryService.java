@@ -1,13 +1,18 @@
-package hei.school.sary.service;
+package hei.school.sarisary.service;
+
+import hei.school.sarisary.file.BucketComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import school.hei.sary.component.BucketComponent;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 
 @Service
 public class SarisaryService {
@@ -44,7 +49,16 @@ public class SarisaryService {
     }
 
     private byte[] transformToBlackAndWhite(byte[] imageBytes) throws IOException {
-        // Méthode de transformation de l'image en noir et blanc
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+        BufferedImage image = ImageIO.read(inputStream);
+
+        BufferedImage blackAndWhiteImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
+        blackAndWhiteImage.getGraphics().drawImage(image, 0, 0, null);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(blackAndWhiteImage, "png", outputStream);
+
+        return outputStream.toByteArray();
     }
 }
 
